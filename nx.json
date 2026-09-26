@@ -73,7 +73,8 @@
     {
       "plugin": "@nx/vitest",
       "options": {
-        "testTargetName": "test"
+        "testTargetName": "test",
+        "ciTargetName": "test-ci"
       }
     }
   ],

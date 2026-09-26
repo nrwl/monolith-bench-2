@@ -6,20 +6,21 @@ on:
       - main
   pull_request:
 
+env:
+  NX_CLOUD_CONTINUOUS_ASSIGNMENT: true
+  NX_CLOUD_AUTO_TASK_PACKING: true
+  NX_CLOUD_USE_IO_SNAPSHOTS: true
+  NX_CLOUD_BUFFER_TASK_COMPLETIONS: false
+  NX_CLOUD_AGENT_TASK_QUEUE: true
+  NX_CLOUD_AGENT_PREFETCH_SECONDS: 60
+  # Part of every task hash (nx.json sharedGlobals).
+  CI_RUNNER: GHA
 permissions:
   actions: read
   contents: read
 
-# Every command runs locally on its own runner, with no Nx Cloud: no remote
-# cache and no distributed task execution, so each job's duration reflects
-# the work done on that single VM.
-env:
-  NX_NO_CLOUD: true
-  # Part of every task hash (nx.json sharedGlobals).
-  CI_RUNNER: GHA
-
 jobs:
-  build:
+  main:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -31,85 +32,20 @@ jobs:
           node-version: 24
           cache: 'npm'
       - run: npm ci
-      - run: npx nx build shop
-
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          filter: tree:0
-          fetch-depth: 0
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 24
-          cache: 'npm'
-      - run: npm ci
-      - run: npx nx typecheck shop
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          filter: tree:0
-          fetch-depth: 0
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 24
-          cache: 'npm'
-      - run: npm ci
-      - run: npx nx lint shop
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          filter: tree:0
-          fetch-depth: 0
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 24
-          cache: 'npm'
-      - run: npm ci
-      - run: npx nx test shop
-        env:
-          UNIT_TEST_WORKERS: 4
-
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          filter: tree:0
-          fetch-depth: 0
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 24
-          cache: 'npm'
-      - run: npm ci
-      - name: Check Hardware Specs
+      - uses: nrwl/nx-set-shas@v4
+      - run: npx nx-cloud start-nx-agents
+      - name: Buffer time # this is only needed cause we are running in a dedicated cluster with no activity. This is not needed in a normal scenario.
+        run: sleep 120
+      - name: Run all checks concurrently
         run: |
-          echo "=== CPU CORES ==="
-          nproc
-          echo "=== RAM MEMORY ==="
-          free -h
-      - run: npx nx format:check --base="remotes/origin/main"
-      - run: npx nx sync:check
-      - run: npx nx validate
+          pids=()
+          npx nx-cloud record -- nx format:check & pids+=($!)
+          npx nx-cloud record -- nx sync:check & pids+=($!)
+          npx nx validate --no-agents & pids+=($!)
+          npx nx run-many -t build typecheck lint test-ci e2e-ci & pids+=($!)
 
-  e2e:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          filter: tree:0
-          fetch-depth: 0
-      - uses: actions/setup-node@v5
-        with:
-          node-version: 24
-          cache: 'npm'
-      - run: npm ci
-      - run: npx playwright install --with-deps chromium
-      - run: npx nx e2e shop --output-style=stream
+          status=0
+          for pid in "${pids[@]}"; do
+            wait "$pid" || status=1
+          done
+          exit $status
