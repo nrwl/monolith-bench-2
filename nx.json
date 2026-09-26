@@ -86,7 +86,6 @@
     }
   },
   "analytics": false,
-  "neverConnectToCloud": true,
   "nxCloudId": "6ab83edb39941b5a9a34119c",
   "nxCloudUrl": "https://snapshot.nx.app"
 }
