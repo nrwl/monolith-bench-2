@@ -8,6 +8,7 @@ import {
   formatCurrencyMany,
   formatCurrencyProduct,
   isFormatCurrencyValid,
+  roundCurrency,
   summarizeFormatCurrency,
 } from './format-currency';
 import { chunk, clampLength, hashString } from './format-currency-helpers';
@@ -87,5 +88,12 @@ describe('util-format-currency', () => {
     expect(clampLength('abcdef', 3)).toHaveLength(3);
     expect(hashString('x')).toBe(hashString('x'));
     expect(chunk([1, 2, 3, 4, 5], 2)).toEqual([[1, 2], [3, 4], [5]]);
+  });
+
+  it('rounds amounts to minor units', () => {
+    expect(roundCurrency(12.345)).toBe(12.35);
+    expect(roundCurrency(12.344)).toBe(12.34);
+    expect(roundCurrency(7)).toBe(7);
+    expect(roundCurrency(12.5, 0)).toBe(13);
   });
 });

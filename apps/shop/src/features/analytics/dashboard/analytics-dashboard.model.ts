@@ -1,4 +1,5 @@
 import type { Product } from '../../../models/product.model';
+import { roundCurrency } from '../../../utils/format/format-currency';
 
 export type AnalyticsDashboardStatus = 'active' | 'pending' | 'archived';
 
@@ -57,7 +58,7 @@ export function buildAnalyticsDashboardProduct(index: number): Product {
     id: `analytics-dashboard-p${index}`,
     name: `${NAMES[index % NAMES.length]} ${index + 1}`,
     description: `Analytics Dashboard product number ${index + 1}`,
-    price: Math.round(seeded(index, 1) * 20000) / 100,
+    price: roundCurrency(seeded(index, 1) * 200),
     category: 'Analytics',
     imageUrl: `https://picsum.photos/seed/analytics-dashboard-${index}/300/200`,
     inStock: seeded(index, 2) > 0.25,

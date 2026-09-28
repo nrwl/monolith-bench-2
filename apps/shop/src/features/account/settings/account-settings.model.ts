@@ -1,4 +1,5 @@
 import type { Product } from '../../../models/product.model';
+import { roundCurrency } from '../../../utils/format/format-currency';
 
 export type AccountSettingsStatus = 'active' | 'pending' | 'archived';
 
@@ -60,7 +61,7 @@ export function buildAccountSettingsProduct(index: number): Product {
     id: `account-settings-p${index}`,
     name: `${NAMES[index % NAMES.length]} ${index + 1}`,
     description: `Account Settings product number ${index + 1}`,
-    price: Math.round(seeded(index, 1) * 20000) / 100,
+    price: roundCurrency(seeded(index, 1) * 200),
     category: 'Account',
     imageUrl: `https://picsum.photos/seed/account-settings-${index}/300/200`,
     inStock: seeded(index, 2) > 0.25,

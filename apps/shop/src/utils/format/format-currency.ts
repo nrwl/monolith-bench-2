@@ -30,6 +30,20 @@ export const FORMAT_CURRENCY_DEFAULTS: Required<FormatCurrencyOptions> = {
 
 export const FORMAT_CURRENCY_KIND = 'format-currency' as const;
 
+/** Number of minor units (e.g. cents) kept when rounding currency amounts. */
+export const CURRENCY_MINOR_UNITS = 2;
+
+/**
+ * Rounds an amount to the currency's minor units, e.g. 12.345 -> 12.35.
+ */
+export function roundCurrency(
+  amount: number,
+  minorUnits: number = CURRENCY_MINOR_UNITS,
+): number {
+  const factor = 10 ** minorUnits;
+  return Math.round(amount * factor) / factor;
+}
+
 /**
  * Formats a raw value using the "kebab" strategy.
  */

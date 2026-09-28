@@ -1,4 +1,5 @@
 import type { Product } from '../../../models/product.model';
+import { roundCurrency } from '../../../utils/format/format-currency';
 
 export type AddressesListStatus = 'active' | 'pending' | 'archived';
 
@@ -60,7 +61,7 @@ export function buildAddressesListProduct(index: number): Product {
     id: `addresses-list-p${index}`,
     name: `${NAMES[index % NAMES.length]} ${index + 1}`,
     description: `Addresses List product number ${index + 1}`,
-    price: Math.round(seeded(index, 1) * 20000) / 100,
+    price: roundCurrency(seeded(index, 1) * 200),
     category: 'Addresses',
     imageUrl: `https://picsum.photos/seed/addresses-list-${index}/300/200`,
     inStock: seeded(index, 2) > 0.25,
