@@ -47,4 +47,10 @@ describe('ErrorMessage', () => {
 
     expect(screen.getByText('⚠️')).toBeInTheDocument();
   });
+
+  it('should expose the error as an alert', () => {
+    render(<ErrorMessage message="Custom error message" />);
+
+    expect(screen.getByRole('alert')).toHaveTextContent('Custom error message');
+  });
 });

@@ -10,7 +10,7 @@ export function ErrorMessage({
   onRetry,
 }: ErrorMessageProps) {
   return (
-    <div className={styles['error-container']}>
+    <div className={styles['error-container']} role="alert">
       <div className={styles['error-icon']}>
         <span role="img" aria-label="Warning">
           ⚠️
@@ -18,7 +18,11 @@ export function ErrorMessage({
       </div>
       <p className={styles['error-text']}>{message}</p>
       {onRetry && (
-        <button className={styles['retry-button']} onClick={onRetry}>
+        <button
+          type="button"
+          className={styles['retry-button']}
+          onClick={onRetry}
+        >
           Try Again
         </button>
       )}

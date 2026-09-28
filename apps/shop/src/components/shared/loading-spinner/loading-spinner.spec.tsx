@@ -32,4 +32,11 @@ describe('LoadingSpinner', () => {
     const spinner = screen.getByLabelText('Loading...');
     expect(spinner).toHaveAttribute('aria-label', 'Loading...');
   });
+
+  it('should announce loading state to assistive technology', () => {
+    render(<LoadingSpinner />);
+
+    const status = screen.getByRole('status');
+    expect(status).toHaveAttribute('aria-live', 'polite');
+  });
 });
