@@ -51,6 +51,13 @@ describe('cart-details utils', () => {
     expect(filterCartDetails(items, 'no-such-thing-xyz')).toHaveLength(0);
   });
 
+  it('matches tags case-insensitively', () => {
+    const [first] = items;
+    const tagged = [{ ...first, name: 'Plain item', tags: ['Priority'] }];
+    expect(filterCartDetails(tagged, 'priority')).toHaveLength(1);
+    expect(filterCartDetails(tagged, 'PRIORITY')).toHaveLength(1);
+  });
+
   it('sorts by key in both directions', () => {
     const asc = sortCartDetails(items, 'amount', 'asc');
     const desc = sortCartDetails(items, 'amount', 'desc');

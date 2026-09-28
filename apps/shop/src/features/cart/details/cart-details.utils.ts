@@ -50,7 +50,7 @@ export function filterCartDetails(
     if (item.status.includes(needle)) {
       return true;
     }
-    return item.tags.some((tag) => tag.includes(needle));
+    return item.tags.some((tag) => tag.toLowerCase().includes(needle));
   });
 }
 
