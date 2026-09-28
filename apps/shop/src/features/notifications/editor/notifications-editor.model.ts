@@ -1,4 +1,4 @@
-import type { Product } from '../../../models/product.model';
+import { productImageUrl, type Product } from '../../../models/product.model';
 
 export type NotificationsEditorStatus = 'active' | 'pending' | 'archived';
 
@@ -59,7 +59,7 @@ export function buildNotificationsEditorProduct(index: number): Product {
     description: `Notifications Editor product number ${index + 1}`,
     price: Math.round(seeded(index, 1) * 20000) / 100,
     category: 'Notifications',
-    imageUrl: `https://picsum.photos/seed/notifications-editor-${index}/300/200`,
+    imageUrl: productImageUrl(`notifications-editor-${index}`),
     inStock: seeded(index, 2) > 0.25,
     rating: Math.round(seeded(index, 3) * 50) / 10,
     reviewCount: Math.floor(seeded(index, 4) * 500),

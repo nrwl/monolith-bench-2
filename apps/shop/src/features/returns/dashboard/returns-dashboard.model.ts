@@ -1,4 +1,4 @@
-import type { Product } from '../../../models/product.model';
+import { productImageUrl, type Product } from '../../../models/product.model';
 
 export type ReturnsDashboardStatus = 'active' | 'pending' | 'archived';
 
@@ -59,7 +59,7 @@ export function buildReturnsDashboardProduct(index: number): Product {
     description: `Returns Dashboard product number ${index + 1}`,
     price: Math.round(seeded(index, 1) * 20000) / 100,
     category: 'Returns',
-    imageUrl: `https://picsum.photos/seed/returns-dashboard-${index}/300/200`,
+    imageUrl: productImageUrl(`returns-dashboard-${index}`),
     inStock: seeded(index, 2) > 0.25,
     rating: Math.round(seeded(index, 3) * 50) / 10,
     reviewCount: Math.floor(seeded(index, 4) * 500),

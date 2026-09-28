@@ -1,4 +1,4 @@
-import type { Product } from '../../../models/product.model';
+import { productImageUrl, type Product } from '../../../models/product.model';
 
 export type SubscriptionsSettingsStatus = 'active' | 'pending' | 'archived';
 
@@ -59,7 +59,7 @@ export function buildSubscriptionsSettingsProduct(index: number): Product {
     description: `Subscriptions Settings product number ${index + 1}`,
     price: Math.round(seeded(index, 1) * 20000) / 100,
     category: 'Subscriptions',
-    imageUrl: `https://picsum.photos/seed/subscriptions-settings-${index}/300/200`,
+    imageUrl: productImageUrl(`subscriptions-settings-${index}`),
     inStock: seeded(index, 2) > 0.25,
     rating: Math.round(seeded(index, 3) * 50) / 10,
     reviewCount: Math.floor(seeded(index, 4) * 500),

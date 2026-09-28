@@ -1,4 +1,4 @@
-import type { Product } from '../../../models/product.model';
+import { productImageUrl, type Product } from '../../../models/product.model';
 
 export type SizingOverviewStatus = 'active' | 'pending' | 'archived';
 
@@ -62,7 +62,7 @@ export function buildSizingOverviewProduct(index: number): Product {
     description: `Sizing Overview product number ${index + 1}`,
     price: Math.round(seeded(index, 1) * 20000) / 100,
     category: 'Sizing',
-    imageUrl: `https://picsum.photos/seed/sizing-overview-${index}/300/200`,
+    imageUrl: productImageUrl(`sizing-overview-${index}`),
     inStock: seeded(index, 2) > 0.25,
     rating: Math.round(seeded(index, 3) * 50) / 10,
     reviewCount: Math.floor(seeded(index, 4) * 500),

@@ -1,4 +1,4 @@
-import type { Product } from '../../../models/product.model';
+import { productImageUrl, type Product } from '../../../models/product.model';
 
 export type LoyaltySettingsStatus = 'active' | 'pending' | 'archived';
 
@@ -62,7 +62,7 @@ export function buildLoyaltySettingsProduct(index: number): Product {
     description: `Loyalty Settings product number ${index + 1}`,
     price: Math.round(seeded(index, 1) * 20000) / 100,
     category: 'Loyalty',
-    imageUrl: `https://picsum.photos/seed/loyalty-settings-${index}/300/200`,
+    imageUrl: productImageUrl(`loyalty-settings-${index}`),
     inStock: seeded(index, 2) > 0.25,
     rating: Math.round(seeded(index, 3) * 50) / 10,
     reviewCount: Math.floor(seeded(index, 4) * 500),

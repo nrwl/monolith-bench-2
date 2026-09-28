@@ -32,3 +32,14 @@ export interface ProductFilter {
   inStock?: boolean;
   searchTerm?: string;
 }
+
+export const PRODUCT_IMAGE_WIDTH = 300;
+export const PRODUCT_IMAGE_HEIGHT = 200;
+
+export function productImageUrl(
+  seed: string,
+  width: number = PRODUCT_IMAGE_WIDTH,
+  height: number = PRODUCT_IMAGE_HEIGHT,
+): string {
+  return `https://picsum.photos/seed/${encodeURIComponent(seed)}/${width}/${height}`;
+}

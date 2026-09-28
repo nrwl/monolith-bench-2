@@ -1,4 +1,4 @@
-import type { Product } from '../../../models/product.model';
+import { productImageUrl, type Product } from '../../../models/product.model';
 
 export type AccountInsightsStatus = 'active' | 'pending' | 'archived';
 
@@ -62,7 +62,7 @@ export function buildAccountInsightsProduct(index: number): Product {
     description: `Account Insights product number ${index + 1}`,
     price: Math.round(seeded(index, 1) * 20000) / 100,
     category: 'Account',
-    imageUrl: `https://picsum.photos/seed/account-insights-${index}/300/200`,
+    imageUrl: productImageUrl(`account-insights-${index}`),
     inStock: seeded(index, 2) > 0.25,
     rating: Math.round(seeded(index, 3) * 50) / 10,
     reviewCount: Math.floor(seeded(index, 4) * 500),

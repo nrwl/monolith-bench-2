@@ -1,4 +1,4 @@
-import type { Product } from '../../../models/product.model';
+import { productImageUrl, type Product } from '../../../models/product.model';
 
 export type ProfileDashboardStatus = 'active' | 'pending' | 'archived';
 
@@ -59,7 +59,7 @@ export function buildProfileDashboardProduct(index: number): Product {
     description: `Profile Dashboard product number ${index + 1}`,
     price: Math.round(seeded(index, 1) * 20000) / 100,
     category: 'Profile',
-    imageUrl: `https://picsum.photos/seed/profile-dashboard-${index}/300/200`,
+    imageUrl: productImageUrl(`profile-dashboard-${index}`),
     inStock: seeded(index, 2) > 0.25,
     rating: Math.round(seeded(index, 3) * 50) / 10,
     reviewCount: Math.floor(seeded(index, 4) * 500),

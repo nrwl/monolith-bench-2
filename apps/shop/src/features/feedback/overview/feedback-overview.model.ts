@@ -1,4 +1,4 @@
-import type { Product } from '../../../models/product.model';
+import { productImageUrl, type Product } from '../../../models/product.model';
 
 export type FeedbackOverviewStatus = 'active' | 'pending' | 'archived';
 
@@ -59,7 +59,7 @@ export function buildFeedbackOverviewProduct(index: number): Product {
     description: `Feedback Overview product number ${index + 1}`,
     price: Math.round(seeded(index, 1) * 20000) / 100,
     category: 'Feedback',
-    imageUrl: `https://picsum.photos/seed/feedback-overview-${index}/300/200`,
+    imageUrl: productImageUrl(`feedback-overview-${index}`),
     inStock: seeded(index, 2) > 0.25,
     rating: Math.round(seeded(index, 3) * 50) / 10,
     reviewCount: Math.floor(seeded(index, 4) * 500),

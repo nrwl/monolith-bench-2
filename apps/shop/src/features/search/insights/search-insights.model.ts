@@ -1,4 +1,4 @@
-import type { Product } from '../../../models/product.model';
+import { productImageUrl, type Product } from '../../../models/product.model';
 
 export type SearchInsightsStatus = 'active' | 'pending' | 'archived';
 
@@ -62,7 +62,7 @@ export function buildSearchInsightsProduct(index: number): Product {
     description: `Search Insights product number ${index + 1}`,
     price: Math.round(seeded(index, 1) * 20000) / 100,
     category: 'Search',
-    imageUrl: `https://picsum.photos/seed/search-insights-${index}/300/200`,
+    imageUrl: productImageUrl(`search-insights-${index}`),
     inStock: seeded(index, 2) > 0.25,
     rating: Math.round(seeded(index, 3) * 50) / 10,
     reviewCount: Math.floor(seeded(index, 4) * 500),

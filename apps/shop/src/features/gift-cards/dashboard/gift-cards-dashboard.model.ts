@@ -1,4 +1,4 @@
-import type { Product } from '../../../models/product.model';
+import { productImageUrl, type Product } from '../../../models/product.model';
 
 export type GiftCardsDashboardStatus = 'active' | 'pending' | 'archived';
 
@@ -59,7 +59,7 @@ export function buildGiftCardsDashboardProduct(index: number): Product {
     description: `Gift Cards Dashboard product number ${index + 1}`,
     price: Math.round(seeded(index, 1) * 20000) / 100,
     category: 'Gift Cards',
-    imageUrl: `https://picsum.photos/seed/gift-cards-dashboard-${index}/300/200`,
+    imageUrl: productImageUrl(`gift-cards-dashboard-${index}`),
     inStock: seeded(index, 2) > 0.25,
     rating: Math.round(seeded(index, 3) * 50) / 10,
     reviewCount: Math.floor(seeded(index, 4) * 500),
