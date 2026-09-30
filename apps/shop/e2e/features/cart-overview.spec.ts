@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { CART_OVERVIEW_FEATURE } from '../../src/features/cart/overview/cart-overview.routes';
 import { CART_OVERVIEW_ITEM_COUNT } from '../../src/features/cart/overview/cart-overview.model';
+import { formatNumber } from '../../src/utils/format/format-number';
 import { padTo } from '../support/pacing';
 
 test.describe('Cart Overview', () => {
@@ -14,6 +15,10 @@ test.describe('Cart Overview', () => {
     await expect(heading).toHaveText(CART_OVERVIEW_FEATURE.title);
     const rows = page.getByTestId(`${CART_OVERVIEW_FEATURE.testId}-row`);
     await expect(rows).toHaveCount(CART_OVERVIEW_ITEM_COUNT);
+    test.info().annotations.push({
+      type: 'rows',
+      description: formatNumber(CART_OVERVIEW_ITEM_COUNT),
+    });
     await padTo(startedAt);
   });
 });
